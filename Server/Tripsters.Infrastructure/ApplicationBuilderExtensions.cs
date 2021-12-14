@@ -13,7 +13,7 @@
            return app.UseSwagger()
                  .UseSwaggerUI(c =>
                  {
-                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tripster Api");
+                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tripsters Api");
                      c.RoutePrefix = string.Empty;
                  });
         }

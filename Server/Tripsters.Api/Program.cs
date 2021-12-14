@@ -7,6 +7,7 @@ builder.Services
     .AddIdentity()
     .AddJwtAuthentication(builder.Services.GetAppSettings(builder.Configuration))
     .AddServices()
+    .AddSwagger()
     .AddControllers();
 
 

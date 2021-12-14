@@ -12,6 +12,7 @@
             => this.identityService = identityService;
 
         [Route(nameof(Register))]
+        [HttpPost]
         public async Task<ActionResult> Register(RegisterUserRequestModel model)
         {
 
@@ -26,6 +27,7 @@
         }
 
         [Route(nameof(Login))]
+        [HttpPost]
         public async Task<ActionResult<object>> Login(LoginRequestModel model)
         {
             var result = await this.identityService.Login(model);
