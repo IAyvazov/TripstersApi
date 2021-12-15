@@ -15,7 +15,6 @@
         [HttpPost]
         public async Task<ActionResult> Register(RegisterUserRequestModel model)
         {
-
             var result = await this.identityService.Register(model);
 
             if (!result.Succeeded)
