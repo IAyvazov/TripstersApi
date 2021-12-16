@@ -53,8 +53,19 @@
             };
         }
 
-        public async Task<IdentityResult> Register(RegisterUserRequestModel model)
+        public async Task<RegisterUserResponseModel> Register(RegisterUserRequestModel model)
         {
+            var userExist = await this.userManager.FindByNameAsync(model.UserName);
+
+            if (userExist != null)
+            {
+                return new RegisterUserResponseModel
+                {
+                    Succeeded = false,
+                    Description= "User with this name already exist."
+                };
+            }
+
             var user = new User
             {
                 Email = model.Email,
@@ -63,7 +74,20 @@
 
             var result = await this.userManager.CreateAsync(user, model.Password);
 
-            return result;
+            if (!result.Succeeded)
+            {
+                return new RegisterUserResponseModel
+                {
+                    Succeeded = false,
+                    Description = result.Errors.FirstOrDefault().ToString()
+                };
+            }
+
+            return  new RegisterUserResponseModel
+            {
+                Succeeded = true,
+                Description = "User is created."
+            };
         }
 
         private async Task<string> GenerateJwtToken(User user)

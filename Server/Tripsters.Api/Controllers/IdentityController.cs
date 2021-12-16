@@ -19,10 +19,10 @@
 
             if (!result.Succeeded)
             {
-                return BadRequest(result.Errors);
+                return BadRequest(result);
             }
             
-            return Ok();
+            return Created(nameof(Register),result);
         }
 
         [Route(nameof(Login))]
