@@ -1,8 +1,7 @@
-import { ReactElement } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Signup from './Signup';
 
-const Register = (): ReactElement => {
+const Register = () => {
 
     return (
         <Container className='mt-5 my-auto'>

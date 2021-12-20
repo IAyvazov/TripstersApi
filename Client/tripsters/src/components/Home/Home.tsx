@@ -1,8 +1,7 @@
-import { FC } from 'react';
 import { Carousel, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const Home: FC = () => {
+const Home = ({ name }: { name: string }) => {
     return (
         <Container className='mt-3 justify-content-md-center' >
             <br />
@@ -15,14 +14,26 @@ const Home: FC = () => {
                     />
                     <Carousel.Caption>
                         <Container >
-                            <Row xs={2} md={3} lg={4} xl={5} xxl={6} className="justify-content-md-center">
-                                <Col xs >
-                                    <Link className='btn btn-secondary' to='/login'>Login</Link>
-                                </Col>
-                                <Col xs>
-                                    <Link className='btn btn-secondary' to='/register' >Register</Link>
-                                </Col>
-                            </Row>
+                            {
+                                name ?
+                                    <Row xs={2} md={3} lg={4} xl={5} xxl={6} className="justify-content-md-center">
+
+                                        <Col xs >
+                                            <Link className='btn btn-secondary' to='/addTrips'>Add Trip</Link>
+                                        </Col>
+                                    </Row>
+                                    :
+                                    <Row xs={2} md={3} lg={4} xl={5} xxl={6} className="justify-content-md-center">
+
+                                        <Col xs >
+                                            <Link className='btn btn-secondary' to='/login'>Login</Link>
+                                        </Col>
+                                        <Col xs>
+                                            <Link className='btn btn-secondary' to='/register' >Register</Link>
+                                        </Col>
+                                    </Row>
+                            }
+
                         </Container>
                     </Carousel.Caption>
                 </Carousel.Item>

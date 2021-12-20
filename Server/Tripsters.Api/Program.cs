@@ -3,6 +3,7 @@ using Tripsters.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    .AddCors()
     .AddDatabase(builder.Configuration)
     .AddIdentity()
     .AddJwtAuthentication(builder.Services.GetAppSettings(builder.Configuration))
@@ -22,9 +23,10 @@ app
     .UseSwaggerUI()
     .UseRouting()
     .UseCors(options => options
-    .AllowAnyOrigin()
+    .WithOrigins(new []{ "http://localhost:3000" })
     .AllowAnyHeader()
-    .AllowAnyMethod())
+    .AllowAnyMethod()
+    .AllowCredentials())
     .UseAuthentication()
     .UseAuthorization()
     .UseEndpoints(endpoints =>

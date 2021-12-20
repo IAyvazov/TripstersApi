@@ -13,9 +13,19 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.OpenApi.Models;
+    using Tripsters.Services.User;
 
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<ITripService, TripService>();
+            services.AddTransient<IUserService, UserService>();
+
+            return services;
+        }
+        
         public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
 
@@ -71,14 +81,6 @@
                          ValidateAudience = false,
                      };
                  });
-
-            return services;
-        }
-
-        public static IServiceCollection AddServices(this IServiceCollection services)
-        {
-            services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<ITripService, TripService>();
 
             return services;
         }

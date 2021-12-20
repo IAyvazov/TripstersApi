@@ -1,37 +1,53 @@
-import { RegisterData, RegisterValues } from "../interfaces/identity";
+import { LoginData, RegisterData } from "../interfaces/identity";
 
- const register = async (data: RegisterData) => {
+export const register = async (data: RegisterData) => {
 
   const url = 'https://localhost:7131/Identity/Register';
 
   return await fetch(url, {
     method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
     },
     body: JSON.stringify(data)
   })
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
 };
 
+export const login = async (data: LoginData) => {
 
-export const onRegisterSybmit = async (values: RegisterValues, actions: any) => {
+  const url = 'https://localhost:7131/Identity/Login';
 
-  const { confirmPassword, ...data } = values;
-  var response = await register(data);
-  alert(response.description)
+  return await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(data)
+  })
+};
 
-  if (response.succeeded) {
-    actions.resetForm();
-  }
-}
+export const logout = async () => {
+
+  const url = 'https://localhost:7131/Identity/Logout';
+  await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+};
+
+export const getUser = async () => {
+
+  const url = 'https://localhost:7131/Identity/User';
+
+  return await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include'
+  })
+};
+

@@ -1,5 +1,4 @@
 import { ErrorMessage, useField } from "formik";
-import { FunctionComponent } from "react";
 
 interface Props {
     name: string;
@@ -7,7 +6,7 @@ interface Props {
     label: string;
 }
 
-const TextField: FunctionComponent<Props> = ({ label, ...props })=> {
+const TextField = ({ label, ...props }: Props) => {
 
     const [field, { error, touched }] = useField(props);
 

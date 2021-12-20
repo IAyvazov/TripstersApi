@@ -47,6 +47,9 @@
 
             return new LoginReturnModel
             {
+                Id=user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
                 EncryptedToken = encryptedToken,
                 IsUserValid = isUserValid,
                 IsPasswordValid = isPasswordValid,
@@ -62,7 +65,7 @@
                 return new RegisterUserResponseModel
                 {
                     Succeeded = false,
-                    Description= "User with this name already exist."
+                    Description = "User with this name already exist."
                 };
             }
 
@@ -83,11 +86,30 @@
                 };
             }
 
-            return  new RegisterUserResponseModel
+            return new RegisterUserResponseModel
             {
                 Succeeded = true,
                 Description = "User is created."
             };
+        }
+
+        public JwtSecurityToken VerifyToken(string jwt)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            tokenHandler.ValidateToken(
+                jwt,
+                new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                }
+            , out SecurityToken validatedToken);
+
+            return (JwtSecurityToken)validatedToken;
         }
 
         private async Task<string> GenerateJwtToken(User user)

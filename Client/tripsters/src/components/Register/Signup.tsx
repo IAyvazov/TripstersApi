@@ -1,11 +1,23 @@
-import { Formik, Form } from 'formik';
+import { Formik, Form, replace } from 'formik';
 import { Button } from 'react-bootstrap';
 import TextField from '../TextField/TextField';
 import * as yup from 'yup';
-import { FC } from 'react';
-import { onRegisterSybmit } from '../../services/identityService';
+import { register } from '../../services/identityService';
+import { RegisterValues } from '../../interfaces/identity';
+import { useNavigate } from 'react-router-dom';
 
-const Signup: FC = () => {
+
+const Signup = () => {
+
+    const navigate = useNavigate();
+
+    const onRegisterSubmit = async (values: RegisterValues, actions: any) => {
+
+        const { confirmPassword, ...data } = values;
+        await register(data);
+
+        navigate('/login', { replace: true });
+    }
 
     const validationSchema = yup.object().shape({
         userName: yup.string().min(3, 'Symbols should be minimum 3').max(40, 'Symbols should be maximum 40').required('Name is a required field'),
@@ -24,7 +36,7 @@ const Signup: FC = () => {
                 confirmPassword: '',
             }}
             validationSchema={validationSchema}
-            onSubmit={onRegisterSybmit}
+            onSubmit={onRegisterSubmit}
         >
             <div>
                 <h1 className='my-4 font-weight-bold .display-4'>Sign Up</h1>

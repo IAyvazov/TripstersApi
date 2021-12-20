@@ -1,9 +1,8 @@
 import './footer.css';
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
-import { ReactElement } from 'react';
 
-const Footer = (): ReactElement => {
+const Footer = () => {
 
     var today = new Date();
     var date = today.getFullYear()
