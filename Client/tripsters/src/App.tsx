@@ -4,9 +4,10 @@ import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import Home from './components/Home/Home';
 import Register from './components/Register/Register';
-import Login from './Login/Login';
+import Login from './components/Login/Login';
 import { useEffect, useState } from 'react';
 import { getUser } from './services/identityService';
+import TripCreateForm  from './components/Trip/TripCreateForm';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/" element={<Home name={name} />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login setName={setName} setId={setId} />} />
+                <Route path="/addTrips" element={<TripCreateForm />} />
             </Routes>
             <Footer />
         </div >

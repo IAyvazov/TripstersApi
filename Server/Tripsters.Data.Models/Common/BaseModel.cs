@@ -9,5 +9,7 @@
         public DateTime ModifyOn { get; set; }
 
         public DateTime DeletedOn { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

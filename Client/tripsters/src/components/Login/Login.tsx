@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 import { Formik, Form } from "formik";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import TextField from "../components/TextField/TextField";
-import { LoginData, SetUser } from '../interfaces/identity';
-import { login } from '../services/identityService';
+import TextField from "../TextField/TextField";
+import { LoginData, SetUser } from '../../interfaces/identity';
+import { login } from '../../services/identityService';
 import {useNavigate } from 'react-router-dom';
 
 function Login({ setName, setId }: SetUser) {

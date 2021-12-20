@@ -9,7 +9,6 @@ namespace Tripsters.Services.Trip.Models
 
     public class TripCreateRequestModel
     {
-
         [Required]
         [MaxLength(NameMaxLenght)]
         public string Name { get; set; }

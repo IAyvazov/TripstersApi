@@ -19,8 +19,7 @@
             this.userService = userService;
         }
 
-        [Route(nameof(Register))]
-        [HttpPost]
+        [HttpPost(nameof(Register))]
         public async Task<ActionResult> Register(RegisterUserRequestModel model)
         {
             var result = await this.identityService.Register(model);
@@ -33,8 +32,7 @@
             return Created(nameof(Register), result);
         }
 
-        [Route(nameof(Login))]
-        [HttpPost]
+        [HttpPost(nameof(Login))]
         public async Task<IActionResult> Login(LoginRequestModel model)
         {
             var result = await this.identityService.Login(model);

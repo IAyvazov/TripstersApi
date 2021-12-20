@@ -16,8 +16,7 @@
         }
 
         [Authorize]
-        [HttpPost]
-        [Route(nameof(Create))]
+        [HttpPost(nameof(Create))]
         public async Task<IActionResult> Create(TripCreateRequestModel model)
         {
             var userId = this.User.GetId();
@@ -38,11 +37,11 @@
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IActionResult> GetAll(TripCreateRequestModel model)
         {
-
-            return Ok();
+            var trips = this.tripService.All();
+            return Ok(trips);
         }
     }
 }

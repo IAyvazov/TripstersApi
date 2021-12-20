@@ -6,5 +6,6 @@ namespace Tripsters.Services.Trip
     {
         Task<int> Create(TripCreateRequestModel model, string userId);
 
+        Task<IEnumerable<TripResponseModel>> All();
     }
 }
