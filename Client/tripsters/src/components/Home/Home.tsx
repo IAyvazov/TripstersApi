@@ -14,12 +14,13 @@ const Home = ({ name }: { name: string }) => {
                     />
                     <Carousel.Caption>
                         <Container >
+                            
                             {
                                 name ?
                                     <Row xs={2} md={3} lg={4} xl={5} xxl={6} className="justify-content-md-center">
 
                                         <Col xs >
-                                            <Link className='btn btn-secondary' to='/addTrips'>Add Trip</Link>
+                                            <Link className='btn btn-secondary' to='/trip/create'>Add Trip</Link>
                                         </Col>
                                     </Row>
                                     :

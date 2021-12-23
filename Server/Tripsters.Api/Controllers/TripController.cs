@@ -33,7 +33,7 @@
                 return BadRequest();
             }
 
-            return Created(nameof(this.Create),tripId);
+            return Ok();
         }
 
         [Authorize]

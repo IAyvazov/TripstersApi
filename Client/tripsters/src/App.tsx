@@ -36,7 +36,7 @@ function App() {
                 <Route path="/" element={<Home name={name} />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login setName={setName} setId={setId} />} />
-                <Route path="/addTrips" element={<TripCreateForm />} />
+                <Route path="/trip/create" element={<TripCreateForm />} />
             </Routes>
             <Footer />
         </div >

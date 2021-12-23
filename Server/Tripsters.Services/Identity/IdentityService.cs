@@ -47,10 +47,10 @@
 
             return new LoginReturnModel
             {
-                Id=user.Id,
+                Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                EncryptedToken = encryptedToken,
+                Token = encryptedToken,
                 IsUserValid = isUserValid,
                 IsPasswordValid = isPasswordValid,
             };

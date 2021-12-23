@@ -35,9 +35,9 @@ const Header = ({ name, id, setName, setId }: User) => {
                     {
                         name ? <Nav>
                             <NavDropdown title="" id="collasible-nav-dropdown">
-                                <NavDropdown.Item as={Link} to="/addTrips">Add Trips</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/allTrips">All Trips</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/myTrips">My Trips</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/trip/create">Add Trips</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="trip/all">All Trips</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to={`trip/${id}`}>My Trips</NavDropdown.Item>
                             </NavDropdown>
                             <Nav.Link as={Link} to='/login' onClick={onLogoutClick} >Logout</Nav.Link>
                         </Nav> :

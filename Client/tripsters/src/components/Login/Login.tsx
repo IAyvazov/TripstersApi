@@ -3,8 +3,8 @@ import { Formik, Form } from "formik";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import TextField from "../TextField/TextField";
 import { LoginData, SetUser } from '../../interfaces/identity';
-import { login } from '../../services/identityService';
-import {useNavigate } from 'react-router-dom';
+import { login, saveToken } from '../../services/identityService';
+import { useNavigate } from 'react-router-dom';
 
 function Login({ setName, setId }: SetUser) {
 
@@ -20,7 +20,8 @@ function Login({ setName, setId }: SetUser) {
         var response = await login(values);
 
         var content = await response.json();
-
+        
+        saveToken(content.token);
         navigate('/', { replace: true });
         setName(content.userName);
         setId(content.Id);

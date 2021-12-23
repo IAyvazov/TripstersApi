@@ -3,11 +3,21 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import TextField from '../TextField/TextField';
 import * as yup from 'yup';
 import { TripCreate } from '../../interfaces/trip';
+import { createTrip } from '../../services/tripService';
+import { useNavigate } from 'react-router-dom';
+
 
 const TripCreateForm = () => {
 
+    const navigate = useNavigate();
+
     const onSubmit = async (values: TripCreate, actions: any) => {
-        console.log(values);
+
+        var response = await createTrip(values);
+
+        if (response.ok) {
+            navigate('/trip/all', { replace: true });
+        }
     }
 
     const validationSchema = yup.object().shape({

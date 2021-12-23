@@ -1,6 +1,7 @@
 ﻿namespace Tripsters.Api.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using System.Net;
     using Tripsters.Services.Identity;
     using Tripsters.Services.Identity.Models;
     using Tripsters.Services.User;
@@ -46,17 +47,19 @@
             {
                 return BadRequest("Invalid Credentials");
             }
-            var jwt = result.EncryptedToken;
+
+            var jwt = result.Token;
+
 
             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.None,
                 Secure = true,
-            }) ;
+            });
 
             return Ok(result);
-        
+
         }
 
         [HttpPost(nameof(Logout))]

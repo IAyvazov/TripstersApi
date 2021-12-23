@@ -8,7 +8,7 @@
 
         public string Email { get; set; }
 
-        public string EncryptedToken { get; set; }
+        public string Token { get; set; }
 
         public bool IsUserValid { get; set; }
 
