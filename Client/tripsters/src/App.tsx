@@ -1,13 +1,15 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom'
-import Footer from './components/Footer/Footer';
-import Header from './components/Header/Header';
-import Home from './components/Home/Home';
-import Register from './components/Register/Register';
-import Login from './components/Login/Login';
 import { useEffect, useState } from 'react';
 import { getUser } from './services/identityService';
-import TripCreateForm  from './components/Trip/TripCreateForm';
+import Header from './components/Header/Header';
+import Home from './components/Home/Home';
+import Footer from './components/Footer/Footer';
+import Register from './components/Register/Register';
+import Login from './components/Login/Login';
+import TripCreateForm from './components/Trip/TripCreateForm';
+import Trips from './components/Trip/Trips';
+import TripDetails from './components/Trip/TripDetails';
 
 function App() {
 
@@ -18,7 +20,6 @@ function App() {
         (
             async () => {
                 var response = await getUser();
-
                 var content = await response.json();
 
                 setName(content.userName)
@@ -37,6 +38,8 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login setName={setName} setId={setId} />} />
                 <Route path="/trip/create" element={<TripCreateForm />} />
+                <Route path="/trip/all" element={<Trips />} />
+                <Route path="/trip/:id" element={<TripDetails />} />
             </Routes>
             <Footer />
         </div >

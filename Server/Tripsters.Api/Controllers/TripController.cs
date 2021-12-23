@@ -38,7 +38,7 @@
 
         [Authorize]
         [HttpGet("All")]
-        public async Task<IActionResult> GetAll(TripCreateRequestModel model)
+        public async Task<IActionResult> GetAll()
         {
             var trips = this.tripService.All();
             return Ok(trips);

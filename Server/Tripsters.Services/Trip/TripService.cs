@@ -38,13 +38,15 @@
 
         public async Task<IEnumerable<TripResponseModel>> All()
        => this.dbContext.Trips
-                .Where(x => x.IsDeleted == false && x.CreatedOn >= DateTime.UtcNow)
+                .Where(x => x.IsDeleted == false)
                 .Select(trip => new TripResponseModel
                 {
+                    Id = trip.Id,
                     Name = trip.Name,
                     Description = trip.Description,
                     FromTown = trip.Destination.FromTown,
                     ToTown = trip.Destination.ToTown,
+                    CreatedOn= trip.CreatedOn.ToString(),
                 })
                 .ToList();
     }
