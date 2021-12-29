@@ -22,6 +22,7 @@ export interface TripDetail {
         toTown: string;
         description:string;
         creatorName:string;
+        creatorId:string;
         travelers:[]
     }
 }

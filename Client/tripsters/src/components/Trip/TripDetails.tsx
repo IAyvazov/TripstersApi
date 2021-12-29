@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
-import { Card, Nav } from "react-bootstrap"
+import { Button, Card, Nav } from "react-bootstrap"
 import { useParams } from "react-router-dom";
 import { TripDetail } from "../../interfaces/trip";
 import { getTripDetails } from "../../services/tripService";
 
-const TripDetails = () => {
+const TripDetails = (creatorId: { creatorId: string }) => {
     const params = useParams();
     const [trip, setTrip] = useState<TripDetail['trip']>();
+
+    const [isCreator, setIsCreator] = useState(false);
 
     useEffect(() => {
         (
@@ -15,9 +17,10 @@ const TripDetails = () => {
                 const response = await getTripDetails(tripid);
                 const trip = await response;
                 setTrip(trip);
+                setIsCreator(creatorId.creatorId === trip.creatorId)
             }
         )();
-    }, [params])
+    }, [params,creatorId])
 
     return (
         <Card className="mt-5">
@@ -55,10 +58,10 @@ const TripDetails = () => {
                         :
                         ""
                 }
-                 {
+                {
                     trip?.travelers.length ?
                         <Card.Text>
-                           Available Sets: {trip?.travelers}
+                            Available Sets: {trip?.travelers}
                         </Card.Text>
                         :
                         ""
@@ -66,8 +69,17 @@ const TripDetails = () => {
                 <Card.Text>
                     Start Date: 02.02.2022
                 </Card.Text>
+                {
+                    isCreator ?
+                        < Card.Text >
+                            <Button variant="warning">Edit</Button>{' '}
+                            <Button variant='danger'>Delete</Button>{' '}
+                        </Card.Text>
+                        :
+                        <Button >Join</Button>
+                }
             </Card.Body>
-        </Card>
+        </Card >
     )
 }
 

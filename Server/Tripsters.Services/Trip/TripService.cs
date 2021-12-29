@@ -1,6 +1,5 @@
 ﻿namespace Tripsters.Services.Trip
 {
-    using Microsoft.AspNetCore.Identity;
     using Tripsers.Data;
     using Tripsters.Models;
     using Tripsters.Services.Trip.Models;
@@ -79,6 +78,7 @@
                 ToTown = trip.Destination.ToTown,
                 Description = trip.Description,
                 CreatorName = trip.Creator.UserName,
+                CreatorId =trip.CreatorId,
                 Travelers = trip.Travelers
                     .Select(user => new UserResponseModel
                     {

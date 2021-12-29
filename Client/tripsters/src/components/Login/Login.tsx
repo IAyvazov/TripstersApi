@@ -20,8 +20,6 @@ function Login({ setName, setId }: SetUser) {
 
     const onLoginSubmit = async (values: LoginData, actions: any) => {
         var response = await login(values);
-        console.log(response);
-
         setError(!response.ok);
 
         var content = await response.json();

@@ -30,7 +30,7 @@ const MyTrips = ({ userId }: UserID) => {
                         return <TripCard key={trip.id + trip.name} trip={trip} />
                     })
                 }
-
+                
             </Row>
 
         </div>

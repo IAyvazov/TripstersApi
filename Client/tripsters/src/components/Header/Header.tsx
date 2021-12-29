@@ -13,7 +13,7 @@ const Header = ({ name, id, setName, setId }: User) => {
     }
 
     return (
-        <Navbar fixed='top' collapseOnSelect expand="lg" bg="light" variant="light">
+        <Navbar sticky='top' collapseOnSelect expand="lg" bg="light" variant="light">
             <Container>
 
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
