@@ -13,3 +13,15 @@ export interface Trip {
         toTown: string;
     }
 }
+
+export interface TripDetail {
+    trip: {
+        id: number;
+        name: string;
+        fromTown: string;
+        toTown: string;
+        description:string;
+        creatorName:string;
+        travelers:[]
+    }
+}

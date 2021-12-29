@@ -13,7 +13,6 @@ const MyTrips = ({ userId }: UserID) => {
         (
             async () => {
                 const response = await getAllTripsByUser(userId);
-                console.log(userId);
                 const trip = await response;
                 setTrips(trip);
             }

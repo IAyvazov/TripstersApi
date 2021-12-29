@@ -29,10 +29,10 @@ export const getAllTrips = async () => {
     },
     credentials: 'include'
   })
-  .then(response => response.json())
+    .then(response => response.json())
 }
 
-export const getAllTripsByUser = async (userId:string) => {
+export const getAllTripsByUser = async (userId: string) => {
 
   const url = `https://localhost:7131/Trip/ByUser/${userId}`;
 
@@ -43,5 +43,19 @@ export const getAllTripsByUser = async (userId:string) => {
     },
     credentials: 'include'
   })
-  .then(response => response.json())
+    .then(response => response.json())
+}
+
+export const getTripDetails = async (tripId: string | undefined) => {
+
+  const url = `https://localhost:7131/Trip/Details/${tripId}`;
+
+  return await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    credentials: 'include'
+  })
+    .then(response => response.json())
 }

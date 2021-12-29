@@ -53,5 +53,14 @@
 
             return Ok(trips);
         }
+
+        [Authorize]
+        [HttpGet("Details/{tripId}")]
+        public async Task<IActionResult> GetAllByUser(int tripId)
+        {
+            var trip = await this.tripService.Details(tripId);
+
+            return Ok(trip);
+        }
     }
 }

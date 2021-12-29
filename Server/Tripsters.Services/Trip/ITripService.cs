@@ -9,5 +9,7 @@ namespace Tripsters.Services.Trip
         Task<IEnumerable<TripResponseModel>> All();
 
         Task<IEnumerable<TripResponseModel>> ByUser(string userId);
+
+        Task<TripDetailsResponseModel> Details(int tripId);
     }
 }

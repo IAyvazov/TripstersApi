@@ -4,17 +4,16 @@
     using Tripsers.Data;
     using Tripsters.Models;
     using Tripsters.Services.Trip.Models;
+    using Tripsters.Services.User.Models;
 
     public class TripService : ITripService
     {
         private readonly TripstersDbContext dbContext;
-        private readonly UserManager<User> userManager;
 
 
-        public TripService(TripstersDbContext dbContext, UserManager<User> userManager)
+        public TripService(TripstersDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.userManager = userManager;
         }
 
         public async Task<int> Create(TripCreateRequestModel model, string userId)
@@ -68,5 +67,26 @@
             })
                 .ToList();
         }
+
+        public async Task<TripDetailsResponseModel> Details(int tripId)
+        => this.dbContext.Trips
+            .Where(x => x.Id == tripId)
+            .Select(trip => new TripDetailsResponseModel
+            {
+                Id = trip.Id,
+                Name = trip.Name,
+                FromTown = trip.Destination.FromTown,
+                ToTown = trip.Destination.ToTown,
+                Description = trip.Description,
+                CreatorName = trip.Creator.UserName,
+                Travelers = trip.Travelers
+                    .Select(user => new UserResponseModel
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        Email = user.Email,
+                    }).ToList(),
+            })
+            .FirstOrDefault();
     }
 }
