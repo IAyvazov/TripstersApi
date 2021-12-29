@@ -1,7 +1,6 @@
 ﻿namespace Tripsters.Api.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using System.Net;
     using Tripsters.Services.Identity;
     using Tripsters.Services.Identity.Models;
     using Tripsters.Services.User;
@@ -100,5 +99,6 @@
 
             return Ok(user);
         }
+
     }
 }

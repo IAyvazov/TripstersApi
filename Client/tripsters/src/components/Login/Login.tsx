@@ -5,11 +5,13 @@ import TextField from "../TextField/TextField";
 import { LoginData, SetUser } from '../../interfaces/identity';
 import { login, saveToken } from '../../services/identityService';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import ErrorAlert from '../Alert/ErrorAlert';
 
 function Login({ setName, setId }: SetUser) {
 
     const navigate = useNavigate();
-
+    const [error, setError] = useState<boolean>(false)
 
     const validationSchema = yup.object().shape({
         userName: yup.string().min(3, 'Symbols should be minimum 3').max(40, 'Symbols should be maximum 40').required('Name is a required field'),
@@ -18,16 +20,22 @@ function Login({ setName, setId }: SetUser) {
 
     const onLoginSubmit = async (values: LoginData, actions: any) => {
         var response = await login(values);
+        console.log(response);
+
+        setError(!response.ok);
 
         var content = await response.json();
-        
+
         saveToken(content.token);
         navigate('/', { replace: true });
         setName(content.userName);
         setId(content.Id);
     };
 
+
+
     return (
+
         <Container className='mt-5 my-auto'>
             <Row>
                 <Col className='md-5'>
@@ -41,12 +49,19 @@ function Login({ setName, setId }: SetUser) {
                     >
                         <div>
                             <h1 className='my-4 font-weight-bold .display-4'>Sign In</h1>
-                            <Form>
+                            <Form className='mb-3'>
                                 <TextField name="userName" label="Name" type='text' />
                                 <TextField name="password" label="Password" type='password' />
                                 <Button variant='dark' className='mt-3' type='submit'>Login</Button>
                             </Form>
+                            {
+                                error ?
+                                    <ErrorAlert />
+                                    :
+                                    ''
+                            }
                         </div>
+
                     </Formik>
                 </Col>
                 <Col className='md-7 my-auto'>

@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Security.Claims;
     using Tripsters.Infrastructure;
     using Tripsters.Services.Trip;
     using Tripsters.Services.Trip.Models;
@@ -26,7 +27,7 @@
                 return Unauthorized();
             }
 
-            var tripId = this.tripService.Create(model, userId);
+            var tripId = await this.tripService.Create(model, userId);
 
             if(tripId == null)
             {
@@ -40,7 +41,16 @@
         [HttpGet("All")]
         public async Task<IActionResult> GetAll()
         {
-            var trips = this.tripService.All();
+            var trips = await this.tripService.All();
+            return Ok(trips);
+        }
+
+        [Authorize]
+        [HttpGet("ByUser/{userId}")]
+        public async Task<IActionResult> GetAllByUser(string userId)
+        {
+            var trips = await this.tripService.ByUser(userId);
+
             return Ok(trips);
         }
     }

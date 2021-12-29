@@ -10,6 +10,7 @@ import Login from './components/Login/Login';
 import TripCreateForm from './components/Trip/TripCreateForm';
 import Trips from './components/Trip/Trips';
 import TripDetails from './components/Trip/TripDetails';
+import MyTrips from './components/Trip/MyTrips';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/trip/create" element={<TripCreateForm />} />
                 <Route path="/trip/all" element={<Trips />} />
                 <Route path="/trip/:id" element={<TripDetails />} />
+                <Route path="trip/my" element={<MyTrips userId={id} />} />
             </Routes>
             <Footer />
         </div >

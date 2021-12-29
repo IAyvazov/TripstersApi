@@ -12,6 +12,6 @@
 
         public string ToTown { get; set; }
 
-        public string CreatedOn { get; set; }
+        public string CreatorId { get; set; }
     }
 }

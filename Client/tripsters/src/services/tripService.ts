@@ -31,3 +31,17 @@ export const getAllTrips = async () => {
   })
   .then(response => response.json())
 }
+
+export const getAllTripsByUser = async (userId:string) => {
+
+  const url = `https://localhost:7131/Trip/ByUser/${userId}`;
+
+  return await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    credentials: 'include'
+  })
+  .then(response => response.json())
+}

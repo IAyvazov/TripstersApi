@@ -5,7 +5,7 @@ const Home = ({ name }: { name: string }) => {
     return (
         <Container className='mt-3 justify-content-md-center' >
             <br />
-            <Carousel indicators={false} controls={false} className='mt-5'>
+            <Carousel indicators={false} controls={false} className='mt-5  mb-5'>
                 <Carousel.Item>
                     <img
                         className="d-block w-100"

@@ -27,3 +27,7 @@ export interface SetUser {
   setName: (name: string) => void;
   setId: (id: string) => void;
 }
+
+export interface UserID {
+  userId: string;
+}
