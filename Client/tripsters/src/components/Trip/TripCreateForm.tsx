@@ -1,5 +1,5 @@
 import { Formik, Form } from 'formik';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, FloatingLabel, Row } from 'react-bootstrap';
 import TextField from '../TextField/TextField';
 import * as yup from 'yup';
 import { TripCreate } from '../../interfaces/trip';
@@ -25,6 +25,7 @@ const TripCreateForm = () => {
         fromTown: yup.string().min(4, 'Symbols should be minimum 4').max(30, 'Symbols should be maximum 30').required('To Town is a required field'),
         toTown: yup.string().min(4, 'Symbols should be minimum 4').max(30, 'Symbols should be maximum 30').required('To Town is a required field'),
         description: yup.string().min(15, 'Symbols should be minimum 15').max(1000, 'Symbols should be maximum 1000'),
+        startDate: yup.date().required('Date is required'),
     });
 
     return (
@@ -34,6 +35,7 @@ const TripCreateForm = () => {
                 fromTown: '',
                 toTown: '',
                 description: '',
+                startDate: ''
             }}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
@@ -49,7 +51,8 @@ const TripCreateForm = () => {
                                 <TextField name="name" label="Name" type='text' />
                                 <TextField name="fromTown" label="From Town" type='text' />
                                 <TextField name="toTown" label="To Town" type='text' />
-                                <TextField name="description" label="Description" type='text' />
+                                <TextField name="startDate" label="Date" type='datetime-local' />
+                                <TextField name="description" label="Description" type='textarea' />
                                 <Button variant='dark' className='mt-3' type='submit' >Create</Button>
                             </Form>
                         </div>

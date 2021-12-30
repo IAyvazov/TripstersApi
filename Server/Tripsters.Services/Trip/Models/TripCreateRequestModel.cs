@@ -25,5 +25,8 @@ namespace Tripsters.Services.Trip.Models
         [MaxLength(TownMaxLenght)]
         [MinLength(TownMinLenght)]
         public string ToTown { get; set; }
+
+        [Required]
+        public string StartDate { get; set; }
     }
 }

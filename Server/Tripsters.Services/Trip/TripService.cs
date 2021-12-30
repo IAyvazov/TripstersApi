@@ -1,5 +1,6 @@
 ﻿namespace Tripsters.Services.Trip
 {
+    using System.Globalization;
     using Tripsers.Data;
     using Tripsters.Models;
     using Tripsters.Services.Trip.Models;
@@ -17,10 +18,12 @@
 
         public async Task<int> Create(TripCreateRequestModel model, string userId)
         {
+
             var trip = new Trip
             {
                 Name = model.Name,
                 Description = model.Description,
+                StartDate = model.StartDate,
                 CreatorId = userId,
                 CreatedOn = DateTime.UtcNow,
                 Destination = new Destination
@@ -77,8 +80,9 @@
                 FromTown = trip.Destination.FromTown,
                 ToTown = trip.Destination.ToTown,
                 Description = trip.Description,
+                StartDate = trip.StartDate.ToString(CultureInfo.InvariantCulture.DateTimeFormat),
                 CreatorName = trip.Creator.UserName,
-                CreatorId =trip.CreatorId,
+                CreatorId = trip.CreatorId,
                 Travelers = trip.Travelers
                     .Select(user => new UserResponseModel
                     {
@@ -88,5 +92,38 @@
                     }).ToList(),
             })
             .FirstOrDefault();
+
+        public async Task<bool> JoinTrip(int tripId, string userId)
+        {
+            var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            var trip = this.dbContext.Trips.FirstOrDefault(x => x.Id == tripId);
+
+            if (trip == null)
+            {
+                return false;
+            }
+
+            if (trip.Travelers.Contains(user))
+            {
+                return false;
+            }
+
+            var travelers = new HashSet<User>
+           {
+               user,
+           };
+
+            trip.Travelers = travelers;
+
+            this.dbContext.SaveChanges();
+
+            return true;
+        }
     }
 }

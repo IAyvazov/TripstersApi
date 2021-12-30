@@ -2,7 +2,6 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
     using Tripsters.Infrastructure;
     using Tripsters.Services.Trip;
     using Tripsters.Services.Trip.Models;
@@ -29,7 +28,7 @@
 
             var tripId = await this.tripService.Create(model, userId);
 
-            if(tripId == null)
+            if(tripId == 0)
             {
                 return BadRequest();
             }
@@ -61,6 +60,20 @@
             var trip = await this.tripService.Details(tripId);
 
             return Ok(trip);
+        }
+
+        [Authorize]
+        [HttpGet("Join/{tripId}/{userId}")]
+        public async Task<IActionResult> JoinTrip(int tripId,string userId)
+        {
+            var isJoined = await this.tripService.JoinTrip(tripId,userId);
+
+            if (!isJoined)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }

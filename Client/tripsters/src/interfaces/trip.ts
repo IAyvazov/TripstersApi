@@ -3,6 +3,7 @@ export interface TripCreate {
     description: string;
     fromTown: string;
     toTown: string;
+    startDate: string;
 }
 
 export interface Trip {
@@ -21,6 +22,7 @@ export interface TripDetail {
         fromTown: string;
         toTown: string;
         description:string;
+        startDate: string;
         creatorName:string;
         creatorId:string;
         travelers:[]

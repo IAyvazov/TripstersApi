@@ -40,7 +40,7 @@ function App() {
                 <Route path="/login" element={<Login setName={setName} setId={setId} />} />
                 <Route path="/trip/create" element={<TripCreateForm />} />
                 <Route path="/trip/all" element={<Trips />} />
-                <Route path="/trip/:id" element={<TripDetails creatorId={id} />} />
+                <Route path="/trip/:id" element={<TripDetails userId={id} />} />
                 <Route path="trip/my" element={<MyTrips userId={id} />} />
             </Routes>
             <Footer />

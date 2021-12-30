@@ -10,11 +10,14 @@
 
         public string Description { get; set; }
 
+        public string StartDate { get; set; }
+
         public string FromTown { get; set; }
 
         public string ToTown { get; set; }
 
         public string CreatorName { get; set; }
+
         public string CreatorId { get; set; }
 
         public IEnumerable<UserResponseModel> Travelers { get; set; }

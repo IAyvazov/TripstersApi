@@ -21,6 +21,8 @@ namespace Tripsters.Models
         [MaxLength(DescriptionMaxLenght)]
         public string Description { get; set; }
 
+        public string StartDate { get; set; }
+
         public int DestinationId { get; set; }
 
         public Destination Destination { get; set; }

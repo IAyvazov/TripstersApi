@@ -11,5 +11,7 @@ namespace Tripsters.Services.Trip
         Task<IEnumerable<TripResponseModel>> ByUser(string userId);
 
         Task<TripDetailsResponseModel> Details(int tripId);
+
+        Task<bool> JoinTrip(int tripId, string userId);
     }
 }

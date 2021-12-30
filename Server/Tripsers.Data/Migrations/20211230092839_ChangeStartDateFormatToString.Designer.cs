@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tripsers.Data;
 
@@ -11,9 +12,10 @@ using Tripsers.Data;
 namespace Tripsers.Data.Migrations
 {
     [DbContext(typeof(TripstersDbContext))]
-    partial class TripstersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211230092839_ChangeStartDateFormatToString")]
+    partial class ChangeStartDateFormatToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

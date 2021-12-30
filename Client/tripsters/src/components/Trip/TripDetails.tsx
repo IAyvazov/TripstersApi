@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 import { Button, Card, Nav } from "react-bootstrap"
 import { useParams } from "react-router-dom";
 import { TripDetail } from "../../interfaces/trip";
-import { getTripDetails } from "../../services/tripService";
+import { getTripDetails, joinTrip } from "../../services/tripService";
 
-const TripDetails = (creatorId: { creatorId: string }) => {
+const TripDetails = (userId: { userId: string }) => {
     const params = useParams();
     const [trip, setTrip] = useState<TripDetail['trip']>();
 
@@ -17,10 +17,10 @@ const TripDetails = (creatorId: { creatorId: string }) => {
                 const response = await getTripDetails(tripid);
                 const trip = await response;
                 setTrip(trip);
-                setIsCreator(creatorId.creatorId === trip.creatorId)
+                setIsCreator(userId.userId === trip.creatorId)
             }
         )();
-    }, [params,creatorId])
+    }, [params, userId])
 
     return (
         <Card className="mt-5">
@@ -61,13 +61,13 @@ const TripDetails = (creatorId: { creatorId: string }) => {
                 {
                     trip?.travelers.length ?
                         <Card.Text>
-                            Available Sets: {trip?.travelers}
+                            Members: {trip?.travelers.length}
                         </Card.Text>
                         :
                         ""
                 }
                 <Card.Text>
-                    Start Date: 02.02.2022
+                    Start Date: {trip?.startDate}
                 </Card.Text>
                 {
                     isCreator ?
@@ -76,7 +76,7 @@ const TripDetails = (creatorId: { creatorId: string }) => {
                             <Button variant='danger'>Delete</Button>{' '}
                         </Card.Text>
                         :
-                        <Button >Join</Button>
+                        <Button onClick={() => joinTrip(trip?.id,userId.userId)}>Join</Button>
                 }
             </Card.Body>
         </Card >

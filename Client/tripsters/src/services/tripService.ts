@@ -59,3 +59,17 @@ export const getTripDetails = async (tripId: string | undefined) => {
   })
     .then(response => response.json())
 }
+
+export const joinTrip = async (tripId: number | undefined, userId: string) => {
+
+  const url = `https://localhost:7131/Trip/Join/${tripId}/${userId}`;
+
+  return await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    credentials: 'include'
+  })
+    .then(response => response.json())
+}
