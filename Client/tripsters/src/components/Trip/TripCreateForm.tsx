@@ -1,5 +1,5 @@
 import { Formik, Form } from 'formik';
-import { Button, Col, Container, FloatingLabel, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import TextField from '../TextField/TextField';
 import * as yup from 'yup';
 import { TripCreate } from '../../interfaces/trip';

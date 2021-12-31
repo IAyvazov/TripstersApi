@@ -10,8 +10,8 @@ namespace Tripsters.Services.Trip
 
         Task<IEnumerable<TripResponseModel>> ByUser(string userId);
 
-        Task<TripDetailsResponseModel> Details(int tripId);
+        Task<TripDetailsResponseModel> Details(int tripId, string userId);
 
-        Task<bool> JoinTrip(int tripId, string userId);
+        Task<TripJoinResponseModel> JoinTrip(int tripId, string userId);
     }
 }

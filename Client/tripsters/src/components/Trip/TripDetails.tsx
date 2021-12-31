@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react"
 import { Button, Card, Nav } from "react-bootstrap"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TripDetail } from "../../interfaces/trip";
 import { getTripDetails, joinTrip } from "../../services/tripService";
 
 const TripDetails = (userId: { userId: string }) => {
+    const navigate = useNavigate();
+
     const params = useParams();
     const [trip, setTrip] = useState<TripDetail['trip']>();
-
-    const [isCreator, setIsCreator] = useState(false);
 
     useEffect(() => {
         (
             async () => {
                 const tripid = params.id;
-                const response = await getTripDetails(tripid);
+                const response = await getTripDetails(tripid, userId.userId);
                 const trip = await response;
+
                 setTrip(trip);
-                setIsCreator(userId.userId === trip.creatorId)
+                console.log(trip);
+
             }
         )();
     }, [params, userId])
@@ -70,13 +72,23 @@ const TripDetails = (userId: { userId: string }) => {
                     Start Date: {trip?.startDate}
                 </Card.Text>
                 {
-                    isCreator ?
+                    trip?.isCreator ?
                         < Card.Text >
                             <Button variant="warning">Edit</Button>{' '}
                             <Button variant='danger'>Delete</Button>{' '}
                         </Card.Text>
                         :
-                        <Button onClick={() => joinTrip(trip?.id,userId.userId)}>Join</Button>
+                        trip?.isMember ?
+                            ""
+                            :
+                            <Button onClick={() => {
+                                (
+                                    async () => {
+                                        await joinTrip(trip?.id, userId.userId);
+                                        navigate("/trip/all", { replace: true });
+                                    }
+                                )();
+                            }}>Join</Button>
                 }
             </Card.Body>
         </Card >

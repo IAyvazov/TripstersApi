@@ -13,7 +13,6 @@ const Trips = () => {
             async () => {
                 const response = await getAllTrips();
                 const trip = await response;
-                
                 setTrips(trip);
             }
         )();

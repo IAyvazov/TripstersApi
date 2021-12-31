@@ -17,11 +17,17 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Trip>()
-             .HasOne(x => x.Creator)
-             .WithMany(x => x.Trips)
+            builder.Entity<User>()
+             .HasMany(x => x.Trips)
+             .WithOne(x => x.Creator)
              .HasForeignKey(x => x.CreatorId)
              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Trip>()
+            .HasMany(x => x.Travelers)
+            .WithOne(x => x.Trip)
+            .HasForeignKey(x => x.TripId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Trip>()
                 .HasOne(x => x.Destination)

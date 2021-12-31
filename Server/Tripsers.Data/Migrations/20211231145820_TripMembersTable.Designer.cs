@@ -12,8 +12,8 @@ using Tripsers.Data;
 namespace Tripsers.Data.Migrations
 {
     [DbContext(typeof(TripstersDbContext))]
-    [Migration("20211230092839_ChangeStartDateFormatToString")]
-    partial class ChangeStartDateFormatToString
+    [Migration("20211231145820_TripMembersTable")]
+    partial class TripMembersTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -242,6 +242,30 @@ namespace Tripsers.Data.Migrations
                     b.ToTable("Trips");
                 });
 
+            modelBuilder.Entity("Tripsters.Models.TripsMembers", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("TripId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TripId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TripsMembers");
+                });
+
             modelBuilder.Entity("Tripsters.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -287,9 +311,6 @@ namespace Tripsers.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TripId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -306,8 +327,6 @@ namespace Tripsers.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("TripId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -382,11 +401,23 @@ namespace Tripsers.Data.Migrations
                     b.Navigation("Destination");
                 });
 
-            modelBuilder.Entity("Tripsters.Models.User", b =>
+            modelBuilder.Entity("Tripsters.Models.TripsMembers", b =>
                 {
-                    b.HasOne("Tripsters.Models.Trip", null)
+                    b.HasOne("Tripsters.Models.Trip", "Trip")
                         .WithMany("Travelers")
-                        .HasForeignKey("TripId");
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Tripsters.Models.User", "User")
+                        .WithMany("TripsMembers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Trip");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Tripsters.Models.Destination", b =>
@@ -402,6 +433,8 @@ namespace Tripsers.Data.Migrations
             modelBuilder.Entity("Tripsters.Models.User", b =>
                 {
                     b.Navigation("Trips");
+
+                    b.Navigation("TripsMembers");
                 });
 #pragma warning restore 612, 618
         }

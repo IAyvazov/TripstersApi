@@ -12,8 +12,8 @@ using Tripsers.Data;
 namespace Tripsers.Data.Migrations
 {
     [DbContext(typeof(TripstersDbContext))]
-    [Migration("20211214131323_addTripTable")]
-    partial class addTripTable
+    [Migration("20211231143854_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,7 +157,42 @@ namespace Tripsers.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Tripsters.Data.Models.Trip", b =>
+            modelBuilder.Entity("Tripsters.Models.Destination", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FromTown")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifyOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ToTown")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Destination");
+                });
+
+            modelBuilder.Entity("Tripsters.Models.Trip", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -172,14 +207,29 @@ namespace Tripsers.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("DeletedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("DestinationId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ModifyOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("StartDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -187,10 +237,12 @@ namespace Tripsers.Data.Migrations
 
                     b.HasIndex("CreatorId");
 
+                    b.HasIndex("DestinationId");
+
                     b.ToTable("Trips");
                 });
 
-            modelBuilder.Entity("Tripsters.Data.Models.User", b =>
+            modelBuilder.Entity("Tripsters.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -271,7 +323,7 @@ namespace Tripsers.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Tripsters.Data.Models.User", null)
+                    b.HasOne("Tripsters.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -280,7 +332,7 @@ namespace Tripsers.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Tripsters.Data.Models.User", null)
+                    b.HasOne("Tripsters.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -295,7 +347,7 @@ namespace Tripsers.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Tripsters.Data.Models.User", null)
+                    b.HasOne("Tripsters.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -304,37 +356,50 @@ namespace Tripsers.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Tripsters.Data.Models.User", null)
+                    b.HasOne("Tripsters.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Tripsters.Data.Models.Trip", b =>
+            modelBuilder.Entity("Tripsters.Models.Trip", b =>
                 {
-                    b.HasOne("Tripsters.Data.Models.User", "Creator")
+                    b.HasOne("Tripsters.Models.User", "Creator")
                         .WithMany("Trips")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Tripsters.Models.Destination", "Destination")
+                        .WithMany("Trips")
+                        .HasForeignKey("DestinationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Creator");
+
+                    b.Navigation("Destination");
                 });
 
-            modelBuilder.Entity("Tripsters.Data.Models.User", b =>
+            modelBuilder.Entity("Tripsters.Models.User", b =>
                 {
-                    b.HasOne("Tripsters.Data.Models.Trip", null)
+                    b.HasOne("Tripsters.Models.Trip", null)
                         .WithMany("Travelers")
                         .HasForeignKey("TripId");
                 });
 
-            modelBuilder.Entity("Tripsters.Data.Models.Trip", b =>
+            modelBuilder.Entity("Tripsters.Models.Destination", b =>
+                {
+                    b.Navigation("Trips");
+                });
+
+            modelBuilder.Entity("Tripsters.Models.Trip", b =>
                 {
                     b.Navigation("Travelers");
                 });
 
-            modelBuilder.Entity("Tripsters.Data.Models.User", b =>
+            modelBuilder.Entity("Tripsters.Models.User", b =>
                 {
                     b.Navigation("Trips");
                 });

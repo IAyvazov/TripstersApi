@@ -7,8 +7,12 @@
         public User()
         {
             this.Trips = new HashSet<Trip>();
+            this.TripsMembers = new HashSet<TripsMembers>();
         }
 
-        public IEnumerable<Trip> Trips { get; set; }
+        public ICollection<Trip> Trips { get; set; }
+
+        public ICollection<TripsMembers> TripsMembers { get; set; }
+
     }
 }

@@ -54,10 +54,10 @@
         }
 
         [Authorize]
-        [HttpGet("Details/{tripId}")]
-        public async Task<IActionResult> GetAllByUser(int tripId)
+        [HttpGet("Details/{tripId}/{userId}")]
+        public async Task<IActionResult> GetAllByUser(int tripId,string userId)
         {
-            var trip = await this.tripService.Details(tripId);
+            var trip = await this.tripService.Details(tripId,userId);
 
             return Ok(trip);
         }
@@ -66,14 +66,9 @@
         [HttpGet("Join/{tripId}/{userId}")]
         public async Task<IActionResult> JoinTrip(int tripId,string userId)
         {
-            var isJoined = await this.tripService.JoinTrip(tripId,userId);
+            var response = await this.tripService.JoinTrip(tripId,userId);
 
-            if (!isJoined)
-            {
-                return BadRequest();
-            }
-
-            return Ok();
+            return Ok(response);
         }
     }
 }

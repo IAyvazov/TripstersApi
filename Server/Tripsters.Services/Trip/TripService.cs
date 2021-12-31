@@ -10,7 +10,6 @@
     {
         private readonly TripstersDbContext dbContext;
 
-
         public TripService(TripstersDbContext dbContext)
         {
             this.dbContext = dbContext;
@@ -31,7 +30,7 @@
                     CreatedOn = DateTime.UtcNow,
                     FromTown = model.FromTown,
                     ToTown = model.ToTown,
-                }
+                },
             };
 
             await this.dbContext.Trips.AddAsync(trip);
@@ -70,60 +69,78 @@
                 .ToList();
         }
 
-        public async Task<TripDetailsResponseModel> Details(int tripId)
-        => this.dbContext.Trips
-            .Where(x => x.Id == tripId)
-            .Select(trip => new TripDetailsResponseModel
-            {
-                Id = trip.Id,
-                Name = trip.Name,
-                FromTown = trip.Destination.FromTown,
-                ToTown = trip.Destination.ToTown,
-                Description = trip.Description,
-                StartDate = trip.StartDate.ToString(CultureInfo.InvariantCulture.DateTimeFormat),
-                CreatorName = trip.Creator.UserName,
-                CreatorId = trip.CreatorId,
-                Travelers = trip.Travelers
-                    .Select(user => new UserResponseModel
-                    {
-                        Id = user.Id,
-                        UserName = user.UserName,
-                        Email = user.Email,
-                    }).ToList(),
-            })
-            .FirstOrDefault();
-
-        public async Task<bool> JoinTrip(int tripId, string userId)
+        public async Task<TripDetailsResponseModel> Details(int tripId, string userId)
         {
+            var IsMembers = this.dbContext.Trips
+                .Where(x => x.Id == tripId)
+                .Any(trip => trip.Travelers
+                .Any(user => user.UserId == userId));
+
+            var isCreator = this.dbContext.Trips
+                .Any(x => x.Id == tripId && x.CreatorId == userId);
+
+            return this.dbContext.Trips
+               .Where(x => x.Id == tripId)
+               .Select(trip => new TripDetailsResponseModel
+               {
+                   Id = trip.Id,
+                   Name = trip.Name,
+                   FromTown = trip.Destination.FromTown,
+                   ToTown = trip.Destination.ToTown,
+                   Description = trip.Description,
+                   StartDate = trip.StartDate.ToString(CultureInfo.InvariantCulture.DateTimeFormat),
+                   CreatorName = trip.Creator.UserName,
+                   CreatorId = trip.CreatorId,
+                   IsMember = IsMembers,
+                   IsCreator = isCreator,
+                   Travelers = trip.Travelers
+                       .Select(user => new UserResponseModel
+                       {
+                           Id = user.User.UserName,
+                           UserName = user.User.UserName,
+                           Email = user.User.Email,
+                       }).ToList(),
+               })
+               .FirstOrDefault();
+        }
+
+        public async Task<TripJoinResponseModel> JoinTrip(int tripId, string userId)
+        {
+
+            var response = new TripJoinResponseModel();
+
             var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
 
             if (user == null)
             {
-                return false;
+                response.ErrorMessage = "There is no such user";
             }
 
             var trip = this.dbContext.Trips.FirstOrDefault(x => x.Id == tripId);
 
             if (trip == null)
             {
-                return false;
+                response.ErrorMessage = "There is no such trip";
             }
 
-            if (trip.Travelers.Contains(user))
+            var isMembers = trip.Travelers.Any(x => x.UserId == userId);
+
+            if (isMembers)
             {
-                return false;
+                response.ErrorMessage = "User is already joined";
             }
 
-            var travelers = new HashSet<User>
-           {
-               user,
-           };
+            trip.Travelers.Add(new TripsMembers
+            {
+                UserId = userId,
+                TripId = tripId,
+            });
 
-            trip.Travelers = travelers;
+            await this.dbContext.SaveChangesAsync();
 
-            this.dbContext.SaveChanges();
+            response.isMember = false;
 
-            return true;
+            return response;
         }
     }
 }

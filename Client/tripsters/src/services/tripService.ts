@@ -46,9 +46,9 @@ export const getAllTripsByUser = async (userId: string) => {
     .then(response => response.json())
 }
 
-export const getTripDetails = async (tripId: string | undefined) => {
+export const getTripDetails = async (tripId: string | undefined, userId: string) => {
 
-  const url = `https://localhost:7131/Trip/Details/${tripId}`;
+  const url = `https://localhost:7131/Trip/Details/${tripId}/${userId}`;
 
   return await fetch(url, {
     headers: {

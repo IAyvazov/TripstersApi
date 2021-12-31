@@ -21,10 +21,20 @@ export interface TripDetail {
         name: string;
         fromTown: string;
         toTown: string;
-        description:string;
+        description: string;
         startDate: string;
-        creatorName:string;
-        creatorId:string;
-        travelers:[]
+        creatorName: string;
+        creatorId: string;
+        isCreator: boolean;
+        isMember: boolean;
+        travelers: Travelers[]
+    }
+}
+
+export interface Travelers {
+    travelers: {
+        id: string;
+        userName: string;
+        email: string;
     }
 }

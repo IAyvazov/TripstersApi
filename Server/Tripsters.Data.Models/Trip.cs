@@ -11,7 +11,7 @@ namespace Tripsters.Models
     {
         public Trip()
         {
-            this.Travelers = new HashSet<User>();
+            this.Travelers = new HashSet<TripsMembers>();
         }
 
         [Required]
@@ -21,6 +21,7 @@ namespace Tripsters.Models
         [MaxLength(DescriptionMaxLenght)]
         public string Description { get; set; }
 
+        [Required]
         public string StartDate { get; set; }
 
         public int DestinationId { get; set; }
@@ -32,7 +33,6 @@ namespace Tripsters.Models
 
         public User Creator { get; set; }
 
-        public IEnumerable<User> Travelers { get; set; }
-
+        public ICollection<TripsMembers> Travelers { get; set; } 
     }
 }
