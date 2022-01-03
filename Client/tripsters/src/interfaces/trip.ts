@@ -1,9 +1,9 @@
 export interface TripCreate {
-    name: string;
-    description: string;
-    fromTown: string;
-    toTown: string;
-    startDate: string;
+    name: string | undefined;
+    description: string | undefined;
+    fromTown: string | undefined;
+    toTown: string | undefined;
+    startDate: string | undefined;
 }
 
 export interface Trip {
@@ -37,4 +37,10 @@ export interface Travelers {
         userName: string;
         email: string;
     }
+}
+
+export interface TripFormProps {
+    formName: string;
+    onSubmit: (values: TripCreate, actions: any) => Promise<void>;
+    trip?: TripCreate;
 }

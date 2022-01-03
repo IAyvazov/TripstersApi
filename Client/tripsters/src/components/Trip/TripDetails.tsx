@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Button, Card, Nav } from "react-bootstrap"
 import { useNavigate, useParams } from "react-router-dom";
 import { TripDetail } from "../../interfaces/trip";
-import { getTripDetails, joinTrip } from "../../services/tripService";
+import { getTripDetails, joinTrip, deleteTrip, editTrip } from "../../services/tripService";
 
 const TripDetails = (userId: { userId: string }) => {
     const navigate = useNavigate();
@@ -18,8 +18,6 @@ const TripDetails = (userId: { userId: string }) => {
                 const trip = await response;
 
                 setTrip(trip);
-                console.log(trip);
-
             }
         )();
     }, [params, userId])
@@ -74,8 +72,21 @@ const TripDetails = (userId: { userId: string }) => {
                 {
                     trip?.isCreator ?
                         < Card.Text >
-                            <Button variant="warning">Edit</Button>{' '}
-                            <Button variant='danger'>Delete</Button>{' '}
+                            <Button variant="warning" onClick={() => {
+                                (
+                                    async () => {
+                                        navigate(`/trip/edit/${params.id}`, { replace: true });
+                                    }
+                                )();
+                            }}>Edit</Button>{' '}
+                            <Button variant='danger' onClick={() => {
+                                (
+                                    async () => {
+                                        await deleteTrip(trip?.id, userId.userId);
+                                        navigate("/trip/all", { replace: true });
+                                    }
+                                )();
+                            }}>Delete</Button>{' '}
                         </Card.Text>
                         :
                         trip?.isMember ?

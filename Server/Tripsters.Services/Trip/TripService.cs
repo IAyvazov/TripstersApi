@@ -1,5 +1,6 @@
 ﻿namespace Tripsters.Services.Trip
 {
+    using Microsoft.EntityFrameworkCore;
     using System.Globalization;
     using Tripsers.Data;
     using Tripsters.Models;
@@ -56,7 +57,7 @@
         public async Task<IEnumerable<TripResponseModel>> ByUser(string userId)
         {
             return this.dbContext.Trips
-            .Where(x => x.CreatorId == userId)
+            .Where(x => x.CreatorId == userId && x.IsDeleted == false)
             .Select(trip => new TripResponseModel
             {
                 Id = trip.Id,
@@ -80,7 +81,7 @@
                 .Any(x => x.Id == tripId && x.CreatorId == userId);
 
             return this.dbContext.Trips
-               .Where(x => x.Id == tripId)
+               .Where(x => x.Id == tripId && x.IsDeleted == false)
                .Select(trip => new TripDetailsResponseModel
                {
                    Id = trip.Id,
@@ -116,7 +117,7 @@
                 response.ErrorMessage = "There is no such user";
             }
 
-            var trip = this.dbContext.Trips.FirstOrDefault(x => x.Id == tripId);
+            var trip = this.dbContext.Trips.FirstOrDefault(x => x.Id == tripId && x.IsDeleted == false);
 
             if (trip == null)
             {
@@ -141,6 +142,62 @@
             response.isMember = false;
 
             return response;
+        }
+
+        public async Task<bool> DeleteTrip(int tripId, string userId)
+        {
+            var trip = this.dbContext.Trips.FirstOrDefault(x => x.Id == tripId && x.CreatorId == userId);
+
+            if (trip == null)
+            {
+                return false;
+            }
+
+            trip.IsDeleted = true;
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<TripResponseModel> GetById(int tripId)
+        => this.dbContext.Trips
+                .Where(x => x.Id == tripId && x.IsDeleted == false)
+                .Select(x => new TripResponseModel
+                {
+                    Id = x.Id,
+                    CreatorId = x.CreatorId,
+                    Description = x.Description,
+                    FromTown = x.Destination.FromTown,
+                    ToTown = x.Destination.ToTown,
+                    Name = x.Name,
+                    StartDate = x.StartDate,
+                })
+                 .FirstOrDefault();
+
+        public async Task<int> Edit(TripCreateRequestModel model, string userId, int tripId)
+        {
+
+            var trip = this.dbContext.Trips
+                .Include(x=>x.Destination)
+                .FirstOrDefault(x => x.IsDeleted == false && x.Id == tripId && x.CreatorId == userId);
+
+            if (trip == null)
+            {
+                return 0;
+            }
+
+            
+            trip.Name =model.Name;
+            trip.Destination.FromTown = model.FromTown;
+            trip.Destination.ToTown = model.ToTown;
+            trip.StartDate = model.StartDate;
+            trip.Description =model.Description;
+            trip.ModifyOn = DateTime.UtcNow;
+
+            await this.dbContext.SaveChangesAsync();
+
+            return trip.Id;
         }
     }
 }

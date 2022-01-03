@@ -4,11 +4,13 @@ interface Props {
     name: string;
     type: string;
     label: string;
+    value?: string;
 }
 
 const TextField = ({ label, ...props }: Props) => {
 
     const [field, { error, touched }] = useField(props);
+
 
     return (
         <div className='mb-2'>
@@ -24,6 +26,3 @@ const TextField = ({ label, ...props }: Props) => {
 }
 
 export default TextField;
-
-
-

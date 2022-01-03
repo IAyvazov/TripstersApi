@@ -13,5 +13,7 @@
         public string ToTown { get; set; }
 
         public string CreatorId { get; set; }
+
+        public string StartDate { get; set; }
     }
 }

@@ -7,10 +7,11 @@ import Home from './components/Home/Home';
 import Footer from './components/Footer/Footer';
 import Register from './components/Register/Register';
 import Login from './components/Login/Login';
-import TripCreateForm from './components/Trip/TripCreateForm';
 import Trips from './components/Trip/Trips';
 import TripDetails from './components/Trip/TripDetails';
 import MyTrips from './components/Trip/MyTrips';
+import TripCreateForm from './components/Trip/TripCreateForm';
+import TripEditForm from './components/Trip/TripEditForm';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login setName={setName} setId={setId} />} />
                 <Route path="/trip/create" element={<TripCreateForm />} />
+                <Route path="/trip/edit/:id" element={<TripEditForm />} />
                 <Route path="/trip/all" element={<Trips />} />
                 <Route path="/trip/:id" element={<TripDetails userId={id} />} />
                 <Route path="trip/my" element={<MyTrips userId={id} />} />
